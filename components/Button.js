@@ -12,9 +12,9 @@ import colors from "../config/colors";
 export default function Button({ action, text }) {
   return (
     <TouchableHighlight
+      onPress={action}
       underlayColor={colors.primaryMuted}
       style={styles.button}
-      onPress={action}
     >
       <Text style={styles.button__text}>{text}</Text>
     </TouchableHighlight>

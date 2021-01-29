@@ -1,55 +1,88 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
 import colors from "../../config/colors";
 import Button from "../Button";
 
 export default function AddTodo({ addTodoHandler, addTodo }) {
   return (
-    <View style={styles.modalContainer}>
-      <Modal animationType="slide" transparent={true} visible={addTodo}>
-        <View style={styles.modal}>
-          <View style={styles.fieldWrapper}>
-            <TextInput
-              style={styles.modal__textInput}
-              placeholder="Sleep all day? Fail to wake ..."
-              multiline={true}
-            ></TextInput>
-          </View>
-          <View style={[styles.fieldWrapper, { flexDirection: "row" }]}>
-            <View style={styles.modal__field}>
-              <Text style={styles.modal__label}>When to start?</Text>
+    addTodo && (
+      <>
+        <View style={styles.modalContainer}></View>
+        <Modal animationType="slide" transparent={true} visible={addTodo}>
+          <TouchableWithoutFeedback
+            onPress={addTodoHandler}
+            style={styles.modalContainer}
+          >
+            <View style={styles.modal__clickable} />
+          </TouchableWithoutFeedback>
+          <View style={styles.modal}>
+            <View style={styles.fieldWrapper}>
               <TextInput
-                style={styles.modal__timeInput}
-                placeholder="1800"
+                style={styles.modal__textInput}
+                placeholder="Sleep all day? Fail to wake ..."
+                multiline={true}
               ></TextInput>
             </View>
-            <View style={styles.modal__field}>
-              <Text style={styles.modal__label}>When to end?</Text>
+            <View style={[styles.fieldWrapper, { flexDirection: "row" }]}>
+              <View style={styles.modal__field}>
+                <Text style={styles.modal__label}>When to start?</Text>
+                <TextInput
+                  style={styles.modal__timeInput}
+                  placeholder="1800"
+                ></TextInput>
+              </View>
+              <View style={styles.modal__field}>
+                <Text style={styles.modal__label}>When to end?</Text>
+                <TextInput
+                  style={styles.modal__timeInput}
+                  placeholder="2000"
+                ></TextInput>
+              </View>
+            </View>
+            <View style={styles.fieldWrapper}>
+              <Text style={styles.modal__label}>Descriptions</Text>
               <TextInput
-                style={styles.modal__timeInput}
-                placeholder="2000"
+                style={[styles.modal__textInput, { height: 150 }]}
+                placeholder="Apple, Banana, Carrot ..."
+                multiline={true}
               ></TextInput>
             </View>
+            <Button action={addTodoHandler} text="Cancel" />
           </View>
-          <View style={styles.fieldWrapper}>
-            <Text style={styles.modal__label}>Descriptions</Text>
-            <TextInput
-              style={[styles.modal__textInput, { height: 150 }]}
-              placeholder="Apple, Banana, Carrot ..."
-              multiline={true}
-            ></TextInput>
-          </View>
-          <Button action={addTodoHandler} text="Cancel" />
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </>
+    )
   );
 }
 
 const styles = StyleSheet.create({
   modalContainer: {
-    width: "100%",
+    position: "absolute",
+    top: -100,
+    left: 0,
+    zIndex: 1,
+    width: "200%",
+    height: "200%",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.15)",
+  },
+  modal__clickable: {
+    position: "absolute",
+    top: -100,
+    left: 0,
+    zIndex: 1,
+    width: "200%",
+    height: "200%",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -62,7 +95,9 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 35,
     paddingHorizontal: 20,
-    // height: "100%",
+    paddingBottom: 53,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     backgroundColor: colors.white,
   },
   fieldWrapper: {

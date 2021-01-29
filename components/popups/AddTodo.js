@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import {
+  Keyboard,
+  KeyboardAvoidingView,
   Modal,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -23,40 +26,51 @@ export default function AddTodo({ addTodoHandler, addTodo }) {
           >
             <View style={styles.modal__clickable} />
           </TouchableWithoutFeedback>
-          <View style={styles.modal}>
-            <View style={styles.fieldWrapper}>
-              <TextInput
-                style={styles.modal__textInput}
-                placeholder="Sleep all day? Fail to wake ..."
-                multiline={true}
-              ></TextInput>
-            </View>
-            <View style={[styles.fieldWrapper, { flexDirection: "row" }]}>
-              <View style={styles.modal__field}>
-                <Text style={styles.modal__label}>When to start?</Text>
+
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <KeyboardAvoidingView
+              style={styles.modal}
+              behavior="padding"
+              keyboardVerticalOffset={Platform.select({
+                ios: () => -40,
+                android: () => -40,
+              })()}
+            >
+              <View style={styles.fieldWrapper}>
                 <TextInput
-                  style={styles.modal__timeInput}
-                  placeholder="1800"
+                  style={styles.modal__textInput}
+                  placeholder="Sleep all day? Fail to wake ..."
+                  multiline={true}
                 ></TextInput>
               </View>
-              <View style={styles.modal__field}>
-                <Text style={styles.modal__label}>When to end?</Text>
+              <View style={[styles.fieldWrapper, { flexDirection: "row" }]}>
+                <View style={styles.modal__field}>
+                  <Text style={styles.modal__label}>When to start?</Text>
+                  <TextInput
+                    style={styles.modal__timeInput}
+                    placeholder="1800"
+                  ></TextInput>
+                </View>
+                <View style={styles.modal__field}>
+                  <Text style={styles.modal__label}>When to end?</Text>
+                  <TextInput
+                    style={styles.modal__timeInput}
+                    placeholder="2000"
+                  ></TextInput>
+                </View>
+              </View>
+              <View style={styles.fieldWrapper}>
+                <Text style={styles.modal__label}>Descriptions</Text>
                 <TextInput
-                  style={styles.modal__timeInput}
-                  placeholder="2000"
+                  style={[styles.modal__textInput, { height: 150 }]}
+                  placeholder="Apple, Banana, Carrot ..."
+                  multiline={true}
                 ></TextInput>
               </View>
-            </View>
-            <View style={styles.fieldWrapper}>
-              <Text style={styles.modal__label}>Descriptions</Text>
-              <TextInput
-                style={[styles.modal__textInput, { height: 150 }]}
-                placeholder="Apple, Banana, Carrot ..."
-                multiline={true}
-              ></TextInput>
-            </View>
-            <Button action={addTodoHandler} text="Cancel" />
-          </View>
+              <Button action={addTodoHandler} text="Cancel" />
+              <View style={{ paddingBottom: 53 }} />
+            </KeyboardAvoidingView>
+          </TouchableWithoutFeedback>
         </Modal>
       </>
     )
